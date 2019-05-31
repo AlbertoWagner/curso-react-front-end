@@ -3,7 +3,7 @@ import Grid from '../template/grid'
 import IconButton from '../template/iconButton'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { changeDescription, search } from './todoActions'
+import { changeDescription, search, add, clear } from './todoActions'
 
 
 
@@ -11,11 +11,12 @@ class TodoForm extends Component {
     constructor(props) {
         super(props)
     }
-    componentWillMount(){
+    componentWillMount() {
         this.props.search()
     }
 
     render() {
+        const { add, search, description , clear} = this.props
         return (
             <div role='form' className='todoForm'>
                 <Grid cols='12 9 10'>
@@ -26,11 +27,11 @@ class TodoForm extends Component {
                 </Grid>
                 <Grid cols='12 3 2'>
                     <IconButton style='primary' icon='plus'
-                        onClick={this.props.handleAdd} ></IconButton>
+                        onClick={() => add(description)} ></IconButton>
                     <IconButton style='info' icon='search'
-                        onClick={this.handleSearch} ></IconButton>
+                        onClick={()=>search(description)} ></IconButton>
                     <IconButton style='default' icon='close'
-                        onClick={this.props.handleClose} ></IconButton>
+                        onClick={()=>clear()} ></IconButton>
                 </Grid>
             </div>
         )
@@ -38,5 +39,5 @@ class TodoForm extends Component {
 }
 
 const mapStateToProps = state => ({ description: state.tudo.description })
-const mapDispertchRoProps = dispatch => bindActionCreators({ changeDescription, search }, dispatch)
+const mapDispertchRoProps = dispatch => bindActionCreators({ changeDescription, search, add ,clear }, dispatch)
 export default connect(mapStateToProps, mapDispertchRoProps)(TodoForm)
